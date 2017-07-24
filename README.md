@@ -1,4 +1,5 @@
-# AdapterService
+# introsde2017-final-project
+# Adapter Service
 **Final project | University of Trento**
 
 Documentation about the Adapter Service: SOAP Web Service
