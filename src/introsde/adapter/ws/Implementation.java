@@ -34,9 +34,9 @@ import introsde.adapter.model.*;
 @WebService(endpointInterface = "introsde.adapter.ws.Interface",serviceName="AdapterService")
 public class Implementation implements Interface{
 	
-	final static private String APP_KEY="11e7eec8475249a685bd218b07da5897";
+	final static private String APP_KEY="88b487231aca46a799ef013f4351ae13";
 	final static private String APP_URL="http://platform.fatsecret.com/rest/server.api";
-	final static private String APP_SECRET = "dd6626f98f2b49c099a0782284f74e17";
+	final static private String APP_SECRET = "59ef712fa4384fda92f260410660e9e4";
 	final static private String HMAC_SHA1_ALGORITHM = "HmacSHA1";
 	WebTarget service;
 	ObjectMapper mapper = new ObjectMapper();
