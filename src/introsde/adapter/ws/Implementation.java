@@ -111,6 +111,113 @@ public class Implementation implements Interface{
 		return foods;
 	}
 	
+	// <--------- EXERCISE
+	
+	@Override
+	public List<Exercise> getExercises() {
+		List<String> params = new ArrayList<>(Arrays.asList(generateOauthParams()));
+
+        params.add("method=exercises.get");
+        params.add("oauth_signature=" + sign("GET", params.toArray(template)));
+        
+	
+		service = client.target(APP_URL +"?" + paramify(params.toArray(template)));
+		Response resp = service.request().get();
+	    String json = resp.readEntity(String.class);
+	    
+	    List<Exercise> exercises = new ArrayList<>();
+	    try {
+			node = mapper.readTree(json);
+			JsonNode exercisesNode = node.path("exercises").path("exercise");
+			for (JsonNode n : exercisesNode) {
+				Exercise e = new Exercise();
+				e.setId(n.path("exercise_id").asInt());
+				e.setName(n.path("exercise_name").asText());
+				exercises.add(e);
+			}
+			
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return exercises;
+	}
+	
+	
+//	@Override
+//	public List<Exercise> getExerciseEntry(Person user, int date) {
+//		List<String> params = new ArrayList<>(Arrays.asList(generateOauthParams()));
+//
+//        params.add("method=exercise_entries.get");
+//        if(date!=0)
+//        	params.add("date="+date);
+//        params.add("oauth_token="+user.getAuth_token());
+//        
+//        params.add("oauth_signature=" + sign("GET", params.toArray(template), user.getAuth_secret()));
+//
+//	
+//		service = client.target(APP_URL +"?" + paramify(params.toArray(template)));
+//		Response resp = service.request().get();
+//	    String json = resp.readEntity(String.class);
+//	    System.out.println(json);
+//	    
+//	    List<Exercise> exercises = new ArrayList<>();
+//	    try {
+//			node = mapper.readTree(json);
+//			JsonNode foodsNode = node.path("exercise_entries").path("exercise_entry");
+//			for (JsonNode n : foodsNode) {
+//				Exercise e = new Exercise();
+//				e.setId(n.path("exercise_id").asInt());
+//				e.setName(n.path("exercise_name").asText());
+//				e.setMinutes(n.path("minutes").asInt());
+//				e.setCalories(n.path("calories").asDouble());
+//				exercises.add(e);
+//			}
+//			
+//		} catch (JsonProcessingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	    
+//		return exercises;
+//	}
+//
+//	
+//	@Override
+//	public boolean editExerciseEntry(Person user, int id, int minutes, boolean change_sleep) {
+//		List<String> params = new ArrayList<>(Arrays.asList(generateOauthParams()));
+//
+//        params.add("method=exercise_entry.edit");
+//        if (change_sleep){
+//        	params.add("shift_from_id=1");
+//        }else{
+//        	params.add("shift_from_id=2");
+//        }
+//        params.add("shift_to_id="+id);
+//        params.add("minutes="+minutes);
+//        params.add("oauth_token="+user.getAuth_token());
+//        
+//        params.add("oauth_signature=" + sign("GET", params.toArray(template), user.getAuth_secret()));
+//
+//	
+//		service = client.target(APP_URL +"?" + paramify(params.toArray(template)));
+//		Response resp = service.request().get();
+//	    String json = resp.readEntity(String.class);
+//	    
+//	    try {
+//			node = mapper.readTree(json);
+//			if(node.path("success").path("value").asInt()==1)
+//				return true;
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	    return false;
+//		
+//	}
+
+	
 	private static String[] generateOauthParams(){
 		return new String[]{
 				"oauth_consumer_key=" + APP_KEY,
@@ -347,111 +454,6 @@ public class Implementation implements Interface{
 //	    
 //	}
 //	
-//	// <--------- EXERCISE
-//	
-//	@Override
-//	public List<Exercise> getExercises() {
-//		List<String> params = new ArrayList<>(Arrays.asList(generateOauthParams()));
-//
-//        params.add("method=exercises.get");
-//        params.add("oauth_signature=" + sign("GET", params.toArray(template)));
-//        
-//	
-//		service = client.target(APP_URL +"?" + paramify(params.toArray(template)));
-//		Response resp = service.request().get();
-//	    String json = resp.readEntity(String.class);
-//	    
-//	    List<Exercise> exercises = new ArrayList<>();
-//	    try {
-//			node = mapper.readTree(json);
-//			JsonNode exercisesNode = node.path("exercises").path("exercise");
-//			for (JsonNode n : exercisesNode) {
-//				Exercise e = new Exercise();
-//				e.setId(n.path("exercise_id").asInt());
-//				e.setName(n.path("exercise_name").asText());
-//				exercises.add(e);
-//			}
-//			
-//		} catch (JsonProcessingException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return exercises;
-//	}
-//	
-//	
-//	@Override
-//	public List<Exercise> getExerciseEntry(Person user, int date) {
-//		List<String> params = new ArrayList<>(Arrays.asList(generateOauthParams()));
-//
-//        params.add("method=exercise_entries.get");
-//        if(date!=0)
-//        	params.add("date="+date);
-//        params.add("oauth_token="+user.getAuth_token());
-//        
-//        params.add("oauth_signature=" + sign("GET", params.toArray(template), user.getAuth_secret()));
-//
-//	
-//		service = client.target(APP_URL +"?" + paramify(params.toArray(template)));
-//		Response resp = service.request().get();
-//	    String json = resp.readEntity(String.class);
-//	    System.out.println(json);
-//	    
-//	    List<Exercise> exercises = new ArrayList<>();
-//	    try {
-//			node = mapper.readTree(json);
-//			JsonNode foodsNode = node.path("exercise_entries").path("exercise_entry");
-//			for (JsonNode n : foodsNode) {
-//				Exercise e = new Exercise();
-//				e.setId(n.path("exercise_id").asInt());
-//				e.setName(n.path("exercise_name").asText());
-//				e.setMinutes(n.path("minutes").asInt());
-//				e.setCalories(n.path("calories").asDouble());
-//				exercises.add(e);
-//			}
-//			
-//		} catch (JsonProcessingException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	    
-//		return exercises;
-//	}
-//
-//	
-//	@Override
-//	public boolean editExerciseEntry(Person user, int id, int minutes, boolean change_sleep) {
-//		List<String> params = new ArrayList<>(Arrays.asList(generateOauthParams()));
-//
-//        params.add("method=exercise_entry.edit");
-//        if (change_sleep){
-//        	params.add("shift_from_id=1");
-//        }else{
-//        	params.add("shift_from_id=2");
-//        }
-//        params.add("shift_to_id="+id);
-//        params.add("minutes="+minutes);
-//        params.add("oauth_token="+user.getAuth_token());
-//        
-//        params.add("oauth_signature=" + sign("GET", params.toArray(template), user.getAuth_secret()));
-//
-//	
-//		service = client.target(APP_URL +"?" + paramify(params.toArray(template)));
-//		Response resp = service.request().get();
-//	    String json = resp.readEntity(String.class);
-//	    
-//	    try {
-//			node = mapper.readTree(json);
-//			if(node.path("success").path("value").asInt()==1)
-//				return true;
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	    return false;
-//		
-//	}
 //	
 //	@Override
 //	public boolean saveTemplate(Person user, int days) {

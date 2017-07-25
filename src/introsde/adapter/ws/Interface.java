@@ -22,7 +22,10 @@ public interface Interface {
     
     @WebMethod(operationName="searchFood")
     public List<Food> searchFood(@WebParam(name="text") String s);
-	
+
+    @WebMethod(operationName="getExercises")
+    public List<Exercise> getExercises();
+    
 //	// Person
 //	
 //    @WebMethod(operationName="createPerson")
@@ -37,8 +40,7 @@ public interface Interface {
 //    @WebMethod(operationName="weightUpdate")
 //    public boolean weightUpdate(@WebParam(name="user") Person user, @WebParam(name="weight") double weight);
 //    
-//    @WebMethod(operationName="getExercises")
-//    public List<Exercise> getExercises();
+
     
 //    
 //    //Recipes
